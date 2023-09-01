@@ -2,38 +2,29 @@
 #include <vector>
 using namespace std;
 int main() {
-  // Define the items.
   vector<pair<int, int>> items = {{1, 2}, {3, 4}, {5, 6}, {7, 8}};
-  // Define the maximum weight capacity.
   int max_weight = 10;
-  // Create a table to store the optimal solution for each subproblem.
   vector<vector<int>> dp(items.size() + 1, vector<int>(max_weight + 1));
-  // Fill in the table.
   for (int i = 1; i <= items.size(); i++) {
     for (int j = 1; j <= max_weight; j++) {
       pair<int, int> item = items[i - 1];
       if (item.first > j) {
-        // The item is too heavy to fit in the knapsack.
-        dp[i][j] = dp[i - 1][j];
+       dp[i][j] = dp[i - 1][j];
       } else {
-        // The item can fit in the knapsack.
         dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - item.first] + item.second);
       }
     }
   }
-  // Construct the optimal solution.
   vector<pair<int, int>> solution;
   int i = items.size();
   int j = max_weight;
   while (i > 0 && j > 0) {
     if (dp[i][j] != dp[i - 1][j]) {
-      // The item is in the optimal solution.
       solution.push_back(items[i - 1]);
       j -= items[i - 1].first;
     }
     i--;
   }
-  // Print the optimal solution.
   for (pair<int, int> item : solution) {
     cout << item.first << " " << item.second << endl;
   }
