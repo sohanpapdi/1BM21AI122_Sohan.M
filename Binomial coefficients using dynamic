@@ -1,0 +1,31 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+int binomialCoeff(int n, int k) {
+  // Create a 2D array to store the binomial coefficients
+  vector<vector<int>> C(n + 1, vector<int>(k + 1, 0));
+  // Calculate the binomial coefficients using dynamic programming
+  for (int i = 0; i <= n; i++) {
+    for (int j = 0; j <= min(i, k); j++) {
+      // Base cases
+      if (j == 0 || j == i) {
+        C[i][j] = 1;
+      } else {
+        // Calculate the binomial coefficient using the previously calculated values
+        C[i][j] = C[i - 1][j - 1] + C[i - 1][j];
+      }
+    }
+  }
+  // Return the binomial coefficient
+  return C[n][k];
+}
+int main() {
+  // Get the input values
+  int n, k;
+  cin >> n >> k;
+  // Calculate the binomial coefficient
+  int result = binomialCoeff(n, k);
+  // Print the result
+  cout << result << endl;
+  return 0;
+}
